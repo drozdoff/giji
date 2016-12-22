@@ -1,0 +1,30 @@
+default: &default
+  adapter: postgresql
+  host: localhost
+  port: 5432
+  username: postgres
+  password: postgres
+  schema_search_path: public
+  encoding: utf8
+  template: template0
+  pool: 5
+  timeout: 5000
+
+development:
+  <<: *default
+  database: giji_dev
+
+# Warning: The database defined as "test" will be erased and
+# re-generated from your development database when you run "rake".
+# Do not set this db to the same as development or production.
+test:
+  <<: *default
+  database: giji_test
+
+staging:
+  <<: *default
+  database: giji_staging
+
+production:
+  <<: *default
+  database: giji_production
