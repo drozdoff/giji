@@ -9,6 +9,7 @@ module PullRequests
           issue.transition!(:ready_for_qa)
           puts 'Transition done'
         end
+        @pull_request.set_approved_label!
       end
     end
 
