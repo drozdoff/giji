@@ -12,6 +12,7 @@ module PullRequests
         description = 'Add assignees and/or JIRA task key.'
       end
 
+      @pull_request.add_jira_issue_links!
       @pull_request.set_head_status!(status, { context: context, description: description })
     end
 

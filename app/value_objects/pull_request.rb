@@ -8,6 +8,22 @@ class PullRequest
     @assignees = assignees
   end
 
+  def add_jira_issue_links!
+    links = []
+    @body += "\n"
+    jira_issues.each do |issue_key|
+      link = generate_jira_issue_link(issue_key)
+      unless @body.scan(link).present?
+        links << link
+        @body += "\n#{link}"
+      end
+    end
+
+    if links.present?
+      Octokit.update_pull_request(ENV['GITHUB_REPOSITORY_NAME'], @number, { body: @body })
+    end
+  end
+
   def set_head_status!(status, info = {})
     Octokit.create_status(ENV['GITHUB_REPOSITORY_NAME'], @head, status, info)
   end
@@ -45,5 +61,9 @@ class PullRequest
   def extract_jira_issues
     issue_regex = Regexp.new(ENV['JIRA_ISSUE_PATTERN'])
     (@title.scan(issue_regex) + @body.scan(issue_regex)).compact.uniq
+  end
+
+  def generate_jira_issue_link(issue_key)
+    "#{ENV['JIRA_BASE_URL']}/browse/#{issue_key}"
   end
 end
