@@ -24,6 +24,10 @@ class PullRequest
     end
   end
 
+  def set_approved_label!
+    Octokit.add_labels_to_an_issue(ENV['GITHUB_REPOSITORY_NAME'], @number, ['Approved'])
+  end
+
   def set_head_status!(status, info = {})
     Octokit.create_status(ENV['GITHUB_REPOSITORY_NAME'], @head, status, info)
   end

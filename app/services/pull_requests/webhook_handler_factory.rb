@@ -6,6 +6,8 @@ module PullRequests
         PullRequests::ChangesHandler.new(payload)
       when 'submitted'
         PullRequests::ReviewHandler.new(payload)
+      else
+        puts 'TBD'
       end
     end
   end
