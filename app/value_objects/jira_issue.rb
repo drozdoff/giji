@@ -1,7 +1,6 @@
 class JiraIssue
 
   TRANSITION_MAPPINGS = {
-
       in_progress: 11,
       in_review: 151,
       reject: 51,
@@ -19,6 +18,7 @@ class JiraIssue
   end
 
   def transition!(status)
+    puts status
     transition = external_issue.transitions.build
     if status == :ready_for_qa
       case current_status
