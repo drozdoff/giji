@@ -33,6 +33,7 @@ class PullRequest
   end
 
   def reviews
+    sleep 1
     @reviews ||= Octokit.reviews(ENV['GITHUB_REPOSITORY_NAME'], @number)
   end
 
@@ -61,7 +62,7 @@ class PullRequest
       approved_reviews_count += 1 if approved
     end
 
-    approved_reviews_count + 1 >= ENV['MIN_APPROVES_REQUIRED'].to_i
+    approved_reviews_count >= ENV['MIN_APPROVES_REQUIRED'].to_i
   end
 
   private
