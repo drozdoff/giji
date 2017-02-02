@@ -1,7 +1,8 @@
 class PullRequestsController < ApplicationController
   def process_data
     puts webhook_action
-    PullRequests::WebhookHandlerFactory.handle(webhook_action, params).process
+    handler = PullRequests::WebhookHandlerFactory.handle(webhook_action, params)
+    handler.process if handler
   end
 
   private
