@@ -34,7 +34,6 @@ class PullRequest
   end
 
   def reviews
-    sleep 1
     @reviews ||= Octokit.reviews(ENV['GITHUB_REPOSITORY_NAME'], @number)
   end
 
