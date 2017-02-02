@@ -44,6 +44,10 @@ class PullRequest
     jira_issues.present? && @assignees.size >= 2
   end
 
+  def has_skip_token?
+    @title.scan(/giji-skip/).present? || @body.scan(/giji-skip/).present?
+  end
+
   def approved?
     reviews_grouped_by_user = reviews.map { |review| { user_id: review.user.id, state: review.state, submitted_at: review.submitted_at } }
                                   .sort { |a, b| a[:submitted_at] <=> b[:submitted_at] }
