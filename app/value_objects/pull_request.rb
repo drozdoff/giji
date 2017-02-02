@@ -51,18 +51,22 @@ class PullRequest
 
   def approved?
     reviews_grouped_by_user = reviews.map { |review| { user_id: review.user.id, state: review.state, submitted_at: review.submitted_at } }
-                                  .sort { |a, b| a[:submitted_at] <=> b[:submitted_at] }
-                                  .group_by { |el| el[:user_id] }
-                                  .values
+                                     .sort { |a, b| a[:submitted_at] <=> b[:submitted_at] }
+                                     .group_by { |el| el[:user_id] }
+                                     .values
 
     approved_reviews_count = 0
+
+    unless reviews_grouped_by_user.flatten.find { |r| r[:user_id] == @current_review['user']['id'] }.present?
+      approved_reviews_count = 1
+    end
 
     reviews_grouped_by_user.each do |reviews|
       approved = reviews.last[:state].downcase == 'approved'
       approved_reviews_count += 1 if approved
     end
 
-    approved_reviews_count + 1 >= ENV['MIN_APPROVES_REQUIRED'].to_i
+    approved_reviews_count >= ENV['MIN_APPROVES_REQUIRED'].to_i
   end
 
   private
