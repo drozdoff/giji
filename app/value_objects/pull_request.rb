@@ -1,11 +1,12 @@
 class PullRequest
 
-  def initialize(number, title, body, head, assignees)
+  def initialize(number, title, body, head, assignees, review = {})
     @number = number
     @title = title
     @body = body
     @head = head
     @assignees = assignees
+    @current_review = review
   end
 
   def add_jira_issue_links!
